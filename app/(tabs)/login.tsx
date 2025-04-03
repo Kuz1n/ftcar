@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useNavigation } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { useState, useEffect, useCallback } from 'react';
 import { Text, View, StyleSheet, TextInput, Alert, Button } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -11,6 +11,10 @@ export default function Login() {
   const [token, setToken] = useState('');
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  const router = useRouter();
+
+
 
   // Загрузка токена при монтировании
   useEffect(() => {
@@ -49,6 +53,7 @@ export default function Login() {
       if (data.valid) {
         setUser(data.user);
         setMessage(`Вы вошли как ${data.user.username}`);
+        router.navigate('./MyCarsScreen')
       } else {
         setToken('');
         await AsyncStorage.removeItem('token');
